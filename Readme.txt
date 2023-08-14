@@ -1,5 +1,6 @@
 
-Rt Estimation from Wastewater Data
+### Rt Estimation from Wastewater Data
+
 We estimate the Rt  using only wastewater data. To estimate the number of cases, we create a proxy from the smoothed SARS-CoV-2 RNA concentration. The process involves the following steps:
 
 1. ARIMA Smoothing: To enhance the accuracy of our wastewater data, we apply an AutoRegressive Integrated Moving Average (ARIMA) model of order 1.

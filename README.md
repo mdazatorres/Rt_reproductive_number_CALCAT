@@ -48,10 +48,3 @@ Before to run this file you need run:
 2.  INLA_WWTP.R 
 
 
-
-
-
-
-
-
-![image](https://github.com/mdazatorres/Rt_reproductive_number_CALCAT/assets/39836676/07036941-c77b-49a0-b6e2-3a78460bea02)

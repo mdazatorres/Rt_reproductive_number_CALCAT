@@ -1,95 +1,107 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2707
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Arial-BoldMT;\f1\fswiss\fcharset0 ArialMT;\f2\fswiss\fcharset0 Arial-ItalicMT;
-}
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fswiss\fcharset0 Arial-BoldMT;}
 {\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue0;\red42\green49\blue64;
-}
+\red42\green49\blue64;}
 {\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\csgray\c0\c0;\cssrgb\c21569\c25490\c31765;
-}
+\cssrgb\c21569\c25490\c31765;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
 \margl1440\margr1440\vieww14880\viewh14840\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
-\f0\b\fs26 \cf2 \cb3 \
+\f0\fs28 \cf2 \cb3 \
+\pard\pardeftab720\sa480\partightenfactor0
+
+\f1\b\fs36 \cf0 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Rt Estimation from Wastewater Data
+\f0\b0\fs28 \cf2 \cb3 \outl0\strokewidth0 \
 \pard\pardeftab720\partightenfactor0
+\cf2 We estimate the\'a0Rt\'a0\cf2 \cb3  using only wastewater data. To estimate the number of cases, we create a proxy from the smoothed SARS-CoV-2 RNA concentration. The process involves the following steps:\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \kerning1\expnd0\expndtw0 \ul \ulc2 1. \cf2 \cb3 \expnd0\expndtw0\kerning0
+\ulc2 ARIMA Smoothing:\ulnone  To enhance the accuracy of our wastewater data, we apply an AutoRegressive Integrated Moving Average (ARIMA) model of order 1.\
+\cf2 \cb3 \kerning1\expnd0\expndtw0 \ul \ulc2 2. \cf2 \cb3 \expnd0\expndtw0\kerning0
+\ulc2 Normalization:\ulnone  We normalize the smoothed concentration data by dividing it by the minimum observed concentration in the treatment plant. This normalization ensures that the minimum concentration corresponds to a reference value of 1\
+\cf2 \cb3 \kerning1\expnd0\expndtw0 \ul \ulc2 3. \cf2 \cb3 \expnd0\expndtw0\kerning0
+\ulc2 Scaling:
+\f1\b \cf2 \cb3 \ulc2  
+\f0\b0 \cf2 \cb3 \ulnone Following normalization, we multiply the normalized concentration by a scalar factor, denoted as k. This step is founded on the assumption that the minimum concentration observed in the treatment plant is roughly indicative of k infected individuals. Notably, the choice of k is not crucial for Rt calculation, as the method is scale-independent.  However, it's worth noting that the selection of the scalar value k can influence the method's sensitivity, particularly for low counts.\
+\cf2 \cb3 \kerning1\expnd0\expndtw0 \ul \ulc2 4. \expnd0\expndtw0\kerning0
+Rt Calculation:\cf2 \cb3 \ulnone  With the wastewater-based proxy for estimated cases, we proceed to calculate Rt using the Epyestim package. This involves evaluating the effective reproduction number using the transformed wastewater data, providing insights into the potential transmission dynamics within the community\cf2 \cb3 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\b\fs36 \cf2 Files:
+\f0\b0\fs28 \
+
+\f1\b 1. Create_data.py:
+\f0\b0 \
+   - This file creates a dataset specifically for California counties by combining wastewater data. \cf2 \cb3 The following steps are performed in this script:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+Eurofins data is joined with SCAN data for cities in the Central Valley that have transitioned to Eurofins testing.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+A dataset is generated containing the data of the largest wastewater treatment plant (WWTP) in each county. This dataset will be used to compute the Rt at the county level.\cf2 \cb3 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \kerning1\expnd0\expndtw0 \
+\pard\pardeftab720\sa400\partightenfactor0
 \cf2 \expnd0\expndtw0\kerning0
-Computing Rt\kerning1\expnd0\expndtw0  ww\expnd0\expndtw0\kerning0
-  for California counties.
-\f1\b0 \
-\
+\outl0\strokewidth0 \strokec5 Output:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf2 data_ww_CA.csv: Dataset containing wastewater data for California cities.\
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec5 data_ww_CA_county.csv: Dataset containing wastewater data for California counties. This dataset includes the data of the largest WWTP in each city.\
 \pard\pardeftab720\partightenfactor0
-\cf2 We estimate the\'a0
-\f2\i \cf2 \cb3 Rt
-\f1\i0 \cf2 \cb3 \'a0value, which represents the effective reproduction number, using the smoothed normalized concentration for each county in California.To wastewater we use the normalize concentration provide for SCAN. These data sets are updated in Create_data.py\
-\
-\
-Files:\
-\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \outl0\strokewidth0 \
 
-\f0\b \cf2 1. Create_data.py:
-\f1\b0 \
-   - This file creates a dataset specifically for California counties by combining wastewater data. Here, we  join the Eurofins data with the SCAN data for cities in the Central Valley that transitioned to Eurofins. We create a data set with the data of the largest wastewater treatment plant in each county for been using to compute a Rt to county level\
-Output:\
-   - data_ww_CA.csv: Dataset containing wastewater data for California cities.\
+\f1\b 2. INLA_arima.R
+\f0\b0 \cf2 \cb3 \outl0\strokewidth0 \strokec5 \
 \pard\pardeftab720\partightenfactor0
-\cf2   - data_ww_CA_county.csv: Dataset containing wastewater data for California counties. Taken the data of the largest WWTP in each city.\
+\cf2 This script generates the datasets required for use in \strokec2 Rt_ww_computed_counties.py\strokec5 . It involves computing an ARIMA model (AutoRegressive Integrated Moving Average) using a Bayesian approach.\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \outl0\strokewidth0 \
+Input:\cf2 \cb3 \kerning1\expnd0\expndtw0 \
+data_ww_CA_county.csv\cf2 \cb3 \expnd0\expndtw0\kerning0
 \
-\pard\pardeftab720\partightenfactor0
-
-\f0\b \cf2 2. INLA_arima.R
-\f1\b0 \
-Generate the datasets for using in Rt_ww_computed_counties.py. In this file we computed an ARIMA 1 in a Bayesian approach.\
-Input:
-\f0\b \kerning1\expnd0\expndtw0 \
-\pard\pardeftab720\partightenfactor0
-
-\f1\b0 \cf2 \cb3 data_ww_CA_county.csv\cf2 \cb3 \expnd0\expndtw0\kerning0
-\
-Output: 
-\f0\b \kerning1\expnd0\expndtw0 \
-
-\f1\b0 \cf2 \cb3 data_ww_CA_county_ARIMA.csv\
+Output: \cf2 \cb3 \kerning1\expnd0\expndtw0 \
+data_ww_CA_county_ARIMA.csv\
 \cf2 \cb3 \expnd0\expndtw0\kerning0
 \
 \
-\pard\pardeftab720\partightenfactor0
 
-\f0\b \cf2 3. Rt_ww_computed_counties.py:
-\f1\b0 \
-   - This file computes the Rt values using the Cori approach for all counties in California.\
-   - It specifically uses the data from the wastewater treatment plant with the highest population served.\
-Imput: \
+\f1\b 3. Rt_ww_computed_counties.py:
+\f0\b0 \
 \pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \outl0\strokewidth0 \strokec5 This script calculates the Rt values using the Cori approach for all counties in California. Specifically, it uses data from the wastewater treatment plant with the highest population served to make these estimations.\cf2 \cb3 \outl0\strokewidth0 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \
+Imput: \
 \cf2 \cb3 \kerning1\expnd0\expndtw0 data_ww_CA_county_ARIMA.cs\cf2 \cb3 \expnd0\expndtw0\kerning0
 \
 Output:\
    - \cf2 \cb3 \kerning1\expnd0\expndtw0 data_Rt_ww_CA.csv\
 \cf2 \cb3 \expnd0\expndtw0\kerning0
- Dataset containing computed Rt values for all counties in California.\
-\pard\pardeftab720\partightenfactor0
+ Dataset containing computed Rt values for all counties in California. This data set is used in CalCAT\
 
-\f0\b \cf2 Note:\
+\f1\b Dictionary
+\f0\b0 \
+\pard\tx566\pardeftab720\partightenfactor0
+\cf2 - Date: The date corresponding to  Rt computed\
+- County: The name of the county in California for which the Rt estimation was made.\
+- Rt: The estimated Reproduction Number (Rt) for the specific county on the given date. \
+- Rt_LCI: The Lower Confidence Interval (LCI) associated with the Rt estimation. It represents the lower bound of the confidence interval for the Rt value, indicating the range of uncertainty.\
+- Rt_UCI: The Upper Confidence Interval (UCI) associated with the Rt estimation. It represents the upper bound of the confidence interval for the Rt value, indicating the range of uncertainty.\
 \pard\pardeftab720\partightenfactor0
+\cf2 \
 
-\f1\b0 \cf2 Before to run this file you need run:\
+\f1\b Note:
+\f0\b0 \
+Before to run this file you need run:\
 1. Create data.py\
 2.  INLA_WWTP.R \
-\
-\pard\tx566\pardeftab720\partightenfactor0
-
-\fs28 \cf2 \cb3 \outl0\strokewidth0 \strokec4 Date: The date corresponding to  Rt computed\
-County: The name of the county in California for which the Rt estimation was made.\
-Rt: The estimated Reproduction Number (Rt) for the specific county on the given date. \
-Rt_LCI: The Lower Confidence Interval (LCI) associated with the Rt estimation. It represents the lower bound of the confidence interval for the Rt value, indicating the range of uncertainty.\
-Rt_UCI: The Upper Confidence Interval (UCI) associated with the Rt estimation. It represents the upper bound of the confidence interval for the Rt value, indicating the range of uncertainty.\
-\pard\pardeftab720\partightenfactor0
-\cf2 \cb3 \outl0\strokewidth0 \
-
-\fs26 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf2 \
-\pard\pardeftab720\partightenfactor0
-\cf2 \
-\
-\
 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf2 \kerning1\expnd0\expndtw0 \

@@ -76,11 +76,6 @@ def data_ww_all_CA():
     data_CA_ww.loc[data_CA_ww['Site_Name'] == 'UC Davis', 'City'] = 'UC Davis'
     data_CA_ww.loc[data_CA_ww['Site_Name'] == 'UC Davis', 'County_FIPS'] = '06113'
     data_CA_ww = data_CA_ww.reset_index()[cols]
-    #data_CA_ww.County_FIPS
-    #data_CA_ww.loc[:, 'County2'] = data_CA_ww['County_FIPS'].apply(lambda x: fips_county[x])
-    # city_ww['N_gene'] = np.where(city_ww['N_gene'] == 0, np.nan, city_ww['N_gene'])
-    # city_ww['N_PMMV'] = city_ww['N_gene'] / city_ww['PMMoV']
-    # data_CA_ww.to_csv("output/" + 'data_ww_CA.csv',index=False)
     return data_CA_ww
 
 # Define a function to combine data from different sources and regions
